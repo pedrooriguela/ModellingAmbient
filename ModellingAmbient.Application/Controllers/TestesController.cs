@@ -15,10 +15,10 @@ public class TestesController : ControllerBase
         _b3Repository = b3Repository;
     }
 
-    [HttpGet]
-    public IActionResult TesteRepositorio()
+    [HttpGet("{ticker_name}")]
+    public IActionResult TesteRepositorio(string ticker_name)
     {
-        _b3Repository.GetB3Data();
+        _b3Repository.CreatePlot(ticker_name);
         return Ok();
     }
     

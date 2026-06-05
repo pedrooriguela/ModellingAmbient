@@ -1,31 +1,45 @@
-﻿using Python.Runtime;
+﻿ using ModellingAmbient.Infra.Services;
 using ModellingAmbient.Core.Interfaces;
+using ModellingAmbient.Infra.Interfaces;
 
 namespace ModellingAmbient.Core.Repositories;
 
 public class B3Repository : IB3Repository
 {
-    public B3Repository() {}
+    private readonly IPythonEngineService _pythonEngineService;
+    public B3Repository(IPythonEngineService pythonEngineService)
+    {
+        _pythonEngineService = pythonEngineService;
+    }
 
     public void GetB3Data()
     {
-        Runtime.PythonDLL = @"C:\Users\origu\AppData\Local\Python\pythoncore-3.14-64\python314.dll";
-        PythonEngine.Initialize();
-
-        using (Py.GIL())
+        _pythonEngineService.Execute(ctx =>
         {
-            string pastaExecucao = AppDomain.CurrentDomain.BaseDirectory;
-            string pastaScripts = Path.GetFullPath(Path.Combine(pastaExecucao, @"..\..\..\..\ModellingAmbient.Scripts/Scripts"));
-            string pastaVenvLibs = Path.GetFullPath(Path.Combine(pastaScripts, @"..\venv\Lib\site-packages"));
-            dynamic sys = Py.Import("sys");
-            sys.path.append(pastaScripts);
-            sys.path.append(pastaVenvLibs);
-
-            dynamic dataScript = Py.Import("GetData");
+            dynamic dataScript = ((PythonEngineService)ctx).GetModule("GetData");
             dataScript.get_b3_data();
+        });
+    }
 
-        }
+    public void GetTickerAdjCloseData(string ticker_name)
+    {
+        _pythonEngineService.Execute(ctx =>
+        {
+            dynamic dataScript = ((PythonEngineService)ctx).GetModule("GetData");
+            dataScript.get_adj_close_data_by_name(ticker_name);
+        });
+    }
 
+    public void CreatePlot(string ticker_name) 
+    {
+        _pythonEngineService.Execute(ctx =>
+        {
+            dynamic dataScript = ((PythonEngineService)ctx).GetModule("GetData");
+            dynamic graphScript = ((PythonEngineService)ctx).GetModule("MakeGraphs");
+            dynamic ticker_column = dataScript.get_adj_close_data_by_name(ticker_name);
+            dynamic df = dataScript.get_df();
+            graphScript.plot_ticker_adjusted_price(df, ticker_name);
 
+        });
     }
 }

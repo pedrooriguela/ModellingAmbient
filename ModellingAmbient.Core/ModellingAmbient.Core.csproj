@@ -8,8 +8,11 @@
 
     <ItemGroup>
       <PackageReference Include="Deedle" Version="8.0.0" />
-      <PackageReference Include="pythonnet" Version="3.1.0" />
       <PackageReference Include="Yahoo.Finance" Version="4.3.6" />
     </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\ModellingAmbient.Infra\ModellingAmbient.Infra.csproj" />
+	</ItemGroup>
+	
 </Project>

@@ -37,3 +37,13 @@ def __clean_adj_close_data(s, window=60, thresh=5):
     rolling_mad_return = rolling_mad_return.replace(0, np.nan).bfill()
     mask = (logarithmic_return - rolling_median_return).abs() / (1.4826 * rolling_mad_return) > thresh
     return s.mask(mask).ffill()
+
+def get_df():
+    path = 'C:\\Users\\origu\\RiderProjects\\ModellingAmbient\\ModellingAmbient.Core\\Csvs\\b3-2010-2025.csv'
+    df: pd.DataFrame = pd.read_csv(path)
+    return df
+
+def get_adj_close_data_by_name(ticker_name):
+    path = 'C:\\Users\\origu\\RiderProjects\\ModellingAmbient\\ModellingAmbient.Core\\Csvs\\b3-2010-2025.csv'
+    b3_df: pd.DataFrame = pd.read_csv(path)
+    return b3_df[ticker_name]
