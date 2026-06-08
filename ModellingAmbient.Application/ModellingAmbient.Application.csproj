@@ -8,6 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0-preview.4.26230.115" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.0" />
@@ -17,5 +27,12 @@
     <ItemGroup>
       <ProjectReference Include="..\ModellingAmbient.Core\ModellingAmbient.Core.csproj" />
     </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="..\ModellingAmbient.Scripts\**\*">
+			<Link>ModellingAmbient.Scripts\%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>

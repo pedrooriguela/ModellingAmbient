@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using ModellingAmbient.Core.Interfaces;
@@ -11,13 +12,20 @@ using ModellingAmbient.Infra.Settings;
 
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddEndpointsApiExplorer();
 
+IConfiguration config = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .Build();
+
+string teste = AppContext.BaseDirectory;
+
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.Configure<PythonEngineSettings>(
-    builder.Configuration.GetSection(PythonEngineSettings.SectionName));
+    config.GetSection(PythonEngineSettings.SectionName));
 
 builder.Services.AddSingleton<IPythonEngineService, PythonEngineService>();
-builder.Services.AddSingleton<IB3Repository, B3Repository>();
+builder.Services.AddScoped<IB3Repository, B3Repository>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>

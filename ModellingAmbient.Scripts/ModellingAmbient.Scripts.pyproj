@@ -26,6 +26,7 @@
     <Compile Include="Scripts\GetData.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Scripts\SystemFunctions.py" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="venv\">
@@ -39,7 +40,47 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="PythonRuntime\" />
+    <Folder Include="PythonRuntime\python-3.14.5-embed-amd64\" />
     <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\libcrypto-3.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\libffi-8.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\libssl-3.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\LICENSE.txt" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\pyexpat.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\python.cat" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\python.exe" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\python3.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\python314.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\python314.zip" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\python314._pth" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\pythonw.exe" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\select.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\sqlite3.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\unicodedata.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\vcruntime140.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\vcruntime140_1.dll" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\winsound.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_asyncio.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_bz2.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_ctypes.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_decimal.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_elementtree.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_hashlib.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_lzma.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_multiprocessing.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_overlapped.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_queue.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_remote_debugging.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_socket.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_sqlite3.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_ssl.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_uuid.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_wmi.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_zoneinfo.pyd" />
+    <Content Include="PythonRuntime\python-3.14.5-embed-amd64\_zstd.pyd" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

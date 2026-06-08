@@ -8,4 +8,5 @@ public interface IPythonEngineService
 {
     void Execute(Action<dynamic> action);
     T Execute<T>(Func<dynamic, T> func);
+    string GetDllPath();
 }

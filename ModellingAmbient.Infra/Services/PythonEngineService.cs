@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModellingAmbient.Infra.Interfaces;
 using ModellingAmbient.Infra.Settings;
@@ -15,19 +16,21 @@ public class PythonEngineService : IPythonEngineService
     private readonly ILogger<PythonEngineService> _logger;
     private readonly string _scriptsPath;
     private readonly string _venvPath;
+    private readonly string _dllPath;
     private bool _disposed;
     private readonly Dictionary<string, dynamic> _moduleCache = new();
 
     public PythonEngineService(
         IOptions<PythonEngineSettings> settings,
-        ILogger<PythonEngineService> logger)
+        ILogger<PythonEngineService> logger,
+        IConfiguration config)
     {
         _settings = settings.Value;
         _logger = logger;
-
         string baseDir = AppDomain.CurrentDomain.BaseDirectory;
         _scriptsPath = Path.GetFullPath(Path.Combine(baseDir, _settings.ScriptsRelativePath));
-        _venvPath = Path.GetFullPath(Path.Combine(_scriptsPath, _settings.VenvRelativePath));
+        _venvPath = Path.GetFullPath(Path.Combine(baseDir, _settings.VenvRelativePath));
+        _dllPath = Path.GetFullPath(Path.Combine(baseDir, _settings.PythonDllPath));
 
         InitializeEngine();
     }
@@ -41,7 +44,7 @@ public class PythonEngineService : IPythonEngineService
         }
 
         _logger.LogDebug("Initializing PythonEngine...");
-        Runtime.PythonDLL = _settings.PythonDllPath;
+        Runtime.PythonDLL = _dllPath;
         PythonEngine.Initialize();
 
         using (Py.GIL())
@@ -126,5 +129,15 @@ public class PythonEngineService : IPythonEngineService
         if(PythonEngine.IsInitialized)
             PythonEngine.Shutdown();
         _disposed = true;
+    }
+
+    public string GetDllPath()
+    {
+        var path = Execute<string>(ctx =>
+        {
+            dynamic systemScript = ((PythonEngineService)ctx).GetModule("SystemFunctions");
+            return systemScript.get_dll_path();
+        });
+        return path;
     }
 }
