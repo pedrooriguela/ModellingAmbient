@@ -9,7 +9,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="11.0.0-preview.4.26230.115" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.8" />
     <PackageReference Include="pythonnet" Version="3.1.0" />
   </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ModellingAmbient.Core\ModellingAmbient.Core.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ using Microsoft.OpenApi;
 using ModellingAmbient.Core.Interfaces;
 using ModellingAmbient.Core.Repositories;
 using ModellingAmbient.Infra.Interfaces;
+using ModellingAmbient.Infra.IoCs;
 using ModellingAmbient.Infra.Services;
 using ModellingAmbient.Infra.Settings;
 
@@ -18,14 +19,10 @@ IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
-string teste = AppContext.BaseDirectory;
-
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.Configure<PythonEngineSettings>(
-    config.GetSection(PythonEngineSettings.SectionName));
 
-builder.Services.AddSingleton<IPythonEngineService, PythonEngineService>();
-builder.Services.AddScoped<IB3Repository, B3Repository>();
+builder.Services.AddInfrastructure(config);
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
