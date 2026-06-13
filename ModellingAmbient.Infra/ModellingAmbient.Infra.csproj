@@ -13,8 +13,5 @@
     <PackageReference Include="pythonnet" Version="3.1.0" />
   </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\ModellingAmbient.Core\ModellingAmbient.Core.csproj" />
-	</ItemGroup>
 
 </Project>

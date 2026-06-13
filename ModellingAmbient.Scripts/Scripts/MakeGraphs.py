@@ -1,10 +1,5 @@
-from multiprocessing import Value
-
-from matplotlib.lines import lineStyles
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 import pandas as pd
-import numpy as np
+import plotly.graph_objects as go
 
 def plot_ticker_adjusted_price(tickers_df: pd.DataFrame, ticker_name):
     dates = tickers_df["Date"]
@@ -15,33 +10,48 @@ def plot_ticker_adjusted_price(tickers_df: pd.DataFrame, ticker_name):
     cor_eixos = '#555555'
     cor_texto = '#AAAAAA'
 
-    fig, ax = plt.subplots()
-    fig.patch.set_facecolor(cor_fundo)
-    ax.set_facecolor(cor_fundo)
+    fig = go.Figure()
 
-    ax.plot(dates, values)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=30))
+    # Adiciona a linha ao gráfico e um preenchimento gradiente abaixo dela
+    fig.add_trace(go.Scatter(
+        x=dates,
+        y=values,
+        mode='lines',
+        line=dict(color=cor_linha, width=2),
+        fill='tozeroy',
+        fillcolor='rgba(0, 229, 255, 0.1)',
+        name=ticker_name
+    ))
 
-    y_min = values.min()*0.95
-    n_camadas = 50
+    # Configurações de layout semelhantes ao do matplotlib original
+    fig.update_layout(
+        plot_bgcolor=cor_fundo,
+        paper_bgcolor=cor_fundo,
+        font=dict(color=cor_texto),
+        xaxis=dict(
+            showgrid=True,
+            gridcolor='#2A2A2B',
+            gridwidth=0.5,
+            griddash='dash',
+            linecolor=cor_eixos,
+            tickcolor=cor_texto,
+            tickformat='%Y-%m-%d'
+        ),
+        yaxis=dict(
+            showgrid=True,
+            gridcolor='#2A2A2B',
+            gridwidth=0.5,
+            griddash='dash',
+            linecolor=cor_eixos,
+            tickcolor=cor_texto
+        ),
+        margin=dict(l=40, r=40, t=40, b=40),
+        showlegend=False
+    )
 
-    for i in np.linspace(0, 1, n_camadas):
-        y_bottom = y_min + (values-y_min)*i
-        ax.fill_between(dates, y_bottom, values, color=cor_linha, alpha=0.03, lw=0)
+    # Salva o gráfico como PNG
+    fig.write_image(f'C:\\Users\\origu\\RiderProjects\\ModellingAmbient\\ModellingAmbient.Core\\Csvs\\{ticker_name}.png')
 
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_color(cor_eixos)
-        ax.spines['bottom'].set_color(cor_eixos)
+    # Retorna o gráfico como uma string HTML
+    return fig.to_html(full_html=False, include_plotlyjs='cdn')
 
-        ax.tick_params(color=cor_texto, which='both')
-        ax.xaxis.label.set_color(cor_texto)
-        ax.yaxis.label.set_color(cor_texto)
-
-        ax.grid(color='#2A2A2B', linestyle='--', linewidth=0.5, alpha=0.5)
-
-        plt.tight_layout()
-        plt.plot()
-
-        plt.savefig('C:\\Users\\origu\\RiderProjects\\ModellingAmbient\\ModellingAmbient.Core\\Csvs')
